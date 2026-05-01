@@ -16,7 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-/* ---------------- SLIDER ---------------- */
+/* ---------------- SLIDES ---------------- */
 
 type Slide = {
   id: number;
@@ -24,79 +24,90 @@ type Slide = {
 };
 
 const slides: Slide[] = [
-  { id: 1, image: "/images/interior design.png" },
-  { id: 2, image: "/images/interior design (1).png" },
-  { id: 3, image: "/images/interior design (2).png" },
+  { id: 1, image: "/images/bg.jpeg" },
+  { id: 2, image: "/images/bg.jpeg" },
+  { id: 3,  image: "/images/bg.jpeg" },
   { id: 4, image: "/images/interior design (3).png" },
 ];
 
-const groupSlides = (arr: Slide[], size = 2): Slide[][] => {
-  const result: Slide[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-};
+/* ---------------- SLIDER ---------------- */
 
 const FancySlider = () => {
-  const grouped = groupSlides(slides, 2);
   const [active, setActive] = useState(0);
 
   const prev = () =>
-    setActive((p) => (p === 0 ? grouped.length - 1 : p - 1));
+    setActive((p) => (p === 0 ? slides.length - 1 : p - 1));
 
   const next = () =>
-    setActive((p) => (p === grouped.length - 1 ? 0 : p + 1));
+    setActive((p) => (p === slides.length - 1 ? 0 : p + 1));
 
   return (
-  <div className="relative w-full bg-white py-10 overflow-hidden">
+    <div className="relative w-full bg-black py-16 overflow-hidden">
 
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${active * 100}%)` }}
-      >
-        {grouped.map((group, i) => (
-          <div
-            key={i}
-            className="min-w-full flex gap-4 justify-center px-6 md:px-12"
-          >
-            {group.map((slide) => (
+      {/* CENTER AREA */}
+      <div className="relative flex items-center justify-center h-[260px]">
+
+        {slides.map((slide, i) => {
+          const offset = i - active;
+
+          return (
+            <div
+              key={slide.id}
+              onClick={() => setActive(i)}
+              className="absolute transition-all duration-500 cursor-pointer"
+              style={{
+                transform: `
+                  translateX(${offset * 280}px)
+                  scale(${i === active ? 1.1 : 0.85})
+                `,
+                zIndex: i === active ? 10 : 5,
+                opacity: Math.abs(offset) > 2 ? 0 : 1,
+              }}
+            >
               <div
-                key={slide.id}
-                className="w-[42%] h-[140px] sm:h-[180px] md:h-[220px] rounded-2xl overflow-hidden border border-zinc-800"
+                className={`rounded-2xl overflow-hidden shadow-xl border border-zinc-700
+                ${
+                  i === active
+                    ? "w-[380px] h-[240px]"
+                    : "w-[260px] h-[170px] opacity-60"
+                }`}
               >
                 <img
                   src={slide.image}
-                  className="w-full h-full object-cover hover:scale-105 transition duration-500"
+                  className="w-full h-full object-cover"
+                  alt="slide"
                 />
               </div>
-            ))}
-          </div>
-        ))}
+            </div>
+          );
+        })}
+
       </div>
 
+      {/* BUTTONS */}
       <button
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white text-black w-10 h-10 rounded-full flex items-center justify-center"
+        className="absolute left-6 top-1/2 -translate-y-1/2 bg-zinc-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
       >
         <ChevronLeft size={18} />
       </button>
 
       <button
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-black w-10 h-10 rounded-full flex items-center justify-center"
+        className="absolute right-6 top-1/2 -translate-y-1/2 bg-zinc-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
       >
         <ChevronRight size={18} />
       </button>
 
-      <div className="flex justify-center mt-5 gap-2">
-        {grouped.map((_, i) => (
+      {/* DOTS */}
+      <div className="flex justify-center mt-10 gap-2">
+        {slides.map((_, i) => (
           <div
             key={i}
             onClick={() => setActive(i)}
-            className={`cursor-pointer rounded-full transition-all ${
-              i === active ? "w-5 h-2 bg-orange-500" : "w-2 h-2 bg-gray-600"
-            }`}
+            className={`cursor-pointer rounded-full transition-all
+              ${i === active ? "w-6 h-2 bg-white" : "w-2 h-2 bg-gray-600"}
+            `}
           />
         ))}
       </div>
@@ -127,6 +138,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-6 py-10">
         <div className="grid md:grid-cols-2 gap-8 items-center">
 
+          {/* LEFT */}
           <div>
             <h1 className="text-4xl font-bold leading-tight">
               Search, compare, save
@@ -138,7 +150,7 @@ export default function HomePage() {
               Compare prices on millions of products instantly.
             </p>
 
-            {/* Rounded Search Bar */}
+            {/* SEARCH */}
             <div className="mt-6 bg-white rounded-2xl p-2 flex items-center max-w-lg">
               <Smartphone className="w-5 h-5 text-gray-500 ml-3" />
 
@@ -153,6 +165,7 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* RIGHT */}
           <div className="flex justify-center md:justify-end">
             <img
               src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600"
@@ -160,40 +173,38 @@ export default function HomePage() {
               alt="hero"
             />
           </div>
+
         </div>
       </section>
 
-    {/* CATEGORY (SAME AS HERO SEARCH STYLE) */}
-<section className="bg-black py-6">
-  <div className="max-w-6xl mx-auto px-6">
+      {/* CATEGORY */}
+      <section className="bg-black py-6">
+        <div className="max-w-6xl mx-auto px-6">
 
-    <div className="bg-white rounded-2xl px-4 py-3 overflow-x-auto no-scrollbar">
-      
-      <div className="flex items-center gap-8 min-w-max">
+          <div className="bg-white rounded-2xl px-4 py-3 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-8 min-w-max">
 
-        {categories.map((cat, i) => {
-          const Icon = cat.icon;
+              {categories.map((cat, i) => {
+                const Icon = cat.icon;
 
-          return (
-            <div
-              key={i}
-              className="flex flex-col items-center justify-center min-w-[70px] text-center"
-            >
-              <Icon className="w-5 h-5 text-black" />
+                return (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center min-w-[70px]"
+                  >
+                    <Icon className="w-5 h-5 text-black" />
+                    <span className="text-xs mt-2 text-black">
+                      {cat.name}
+                    </span>
+                  </div>
+                );
+              })}
 
-              <span className="text-xs mt-2 text-black">
-                {cat.name}
-              </span>
             </div>
-          );
+          </div>
 
-        })}
-
-      </div>
-    </div>
-
-  </div>
-</section>
+        </div>
+      </section>
 
       {/* SLIDER */}
       <FancySlider />
