@@ -56,7 +56,8 @@ const IdealoHeader = () => {
         </div>
 
       </div>
-    </header>
+    </header> 
+    
   );
 };
 
