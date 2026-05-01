@@ -1,85 +1,111 @@
 'use client';
 
+import {
+  Home,
+  Trees,
+  Baby,
+  Gamepad2,
+  Smartphone,
+  Shirt,
+  Car,
+  Bike,
+  Sparkles,
+  Wrench
+} from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
+  const categories = [
+    { name: "Home", icon: Home },
+    { name: "Garden", icon: Trees },
+    { name: "Kids", icon: Baby },
+    { name: "Toys", icon: Gamepad2 },
+    { name: "Electronics", icon: Smartphone },
+    { name: "Clothing", icon: Shirt },
+    { name: "Auto", icon: Car },
+    { name: "Sport", icon: Bike },
+    { name: "Beauty", icon: Sparkles },
+    { name: "DIY", icon: Wrench },
+  ];
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
 
-      {/* Hero Section - Full Black Background */}
-      <section className="pt-20 pb-24 bg-black">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            
-            {/* Left Side - Text Content */}
-            <div className="space-y-8">
-              <h1 className="text-6xl md:text-7xl font-bold leading-tight">
-                Search, compare,<br />
-                <span className="text-orange-500">save</span>
-              </h1>
+      {/* HERO (slightly compact) */}
+      <section className="max-w-6xl mx-auto px-6 py-10">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
 
-              <p className="text-4xl md:text-5xl font-medium text-gray-300">
-                Find your next deal today
-              </p>
+          {/* LEFT */}
+          <div>
+            <h1 className="text-4xl font-bold leading-tight">
+              Search, compare, save
+              <br />
+              Find your next deal today
+            </h1>
 
-              <p className="text-xl text-gray-400 max-w-lg">
-                Bei idealo vergleichst du Preise von Millionen Produkten 
-                aus tausenden Online-Shops und findest das beste Angebot.
-              </p>
+            <p className="mt-4 text-gray-300 max-w-md">
+              At PriceRunner you can compare prices on millions of products from thousands of shops
+            </p>
 
-              {/* Search Bar */}
-              <div className="mt-10 max-w-2xl">
-                <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-2 flex items-center">
-                  <input
-                    type="text"
-                    placeholder="Wonach suchst du heute?"
-                    className="flex-1 bg-transparent px-6 py-5 text-lg placeholder:text-gray-500 focus:outline-none"
-                  />
-                  <button className="bg-orange-500 hover:bg-orange-600 transition-colors text-black font-semibold px-10 py-5 rounded-xl text-lg">
-                    Suchen
-                  </button>
-                </div>
+            {/* SEARCH */}
+            <div className="mt-6 flex items-center bg-white rounded-full overflow-hidden max-w-lg shadow-sm">
+              <div className="pl-4">
+                <Smartphone className="w-5 h-5 text-gray-500" />
               </div>
 
-              <p className="text-gray-500 text-lg">
-                Über 8 Millionen Produkte • Mehr als 4.900 Shops
-              </p>
-            </div>
+              <input
+                className="flex-1 px-3 py-3 text-black outline-none"
+                placeholder="What are you looking for today?"
+              />
 
-            {/* Right Side - Phone Image */}
-            <div className="flex justify-center md:justify-end pt-10 md:pt-0">
-              <div className="relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=650" 
-                  alt="Smartphone with product search"
-                  className="w-full max-w-md rounded-3xl shadow-2xl border border-zinc-800"
-                />
-                {/* Glow Effect */}
-                <div className="absolute -inset-8 bg-orange-500/10 blur-3xl rounded-[4rem] -z-10"></div>
-              </div>
+              <button className="bg-black text-white px-5 py-2 rounded-full mr-1">
+                →
+              </button>
             </div>
-
           </div>
+
+          {/* RIGHT */}
+       <div className="flex justify-center md:justify-end">
+  <img
+    src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600"
+    className="w-[300px] md:w-[340px] rounded-2xl border border-zinc-800"
+    alt="hero"
+  />
+</div>
+
         </div>
       </section>
 
-      {/* Categories */}
-      <div className="bg-zinc-950 border-t border-zinc-900">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex gap-10 overflow-x-auto pb-4 scrollbar-hide">
-            {[
-              "Elektronik", "Mode & Kleidung", "Haushalt", "Sport & Freizeit",
-              "Auto & Motorrad", "Garten", "Spielzeug", "Beauty & Pflege",
-              "Baumarkt & DIY", "Baby & Kind"
-            ].map((cat, i) => (
-              <a 
-                key={i}
-                href="#" 
-                className="text-gray-300 hover:text-orange-400 whitespace-nowrap font-medium transition-colors"
-              >
-                {cat}
-              </a>
-            ))}
+      {/* CATEGORY ROW (unchanged clean UI) */}
+      <div className="bg-black text-black py-5">
+        <div className="max-w-6xl mx-auto px-6">
+
+          <div className="bg-white border shadow-sm rounded-full px-6 py-3 overflow-x-auto no-scrollbar">
+
+            <div className="flex gap-6">
+
+              {categories.map((cat, i) => {
+                const Icon = cat.icon;
+
+                return (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center min-w-[85px] cursor-pointer"
+                  >
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 border">
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <span className="text-xs mt-2 text-gray-700">
+                      {cat.name}
+                    </span>
+                  </div>
+                );
+              })}
+
+            </div>
+
           </div>
+
         </div>
       </div>
 
