@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   Trees,
@@ -26,61 +26,92 @@ type Slide = {
 const slides: Slide[] = [
   { id: 1, image: "/images/bg.jpeg" },
   { id: 2, image: "/images/bg.jpeg" },
-  { id: 3,  image: "/images/bg.jpeg" },
-  { id: 4, image: "/images/interior design (3).png" },
+  { id: 3, image: "/images/bg.jpeg" },
+  { id: 4, image: "/images/bg.jpeg" },
 ];
 
 /* ---------------- SLIDER ---------------- */
 
 const FancySlider = () => {
   const [active, setActive] = useState(0);
+  const total = slides.length;
 
-  const prev = () =>
-    setActive((p) => (p === 0 ? slides.length - 1 : p - 1));
+  const getIndex = (i: number) => (i + total) % total;
 
-  const next = () =>
-    setActive((p) => (p === slides.length - 1 ? 0 : p + 1));
+  const leftIndex = getIndex(active - 1);
+  const rightIndex = getIndex(active + 1);
+
+  const prev = () => setActive((p) => getIndex(p - 1));
+  const next = () => setActive((p) => getIndex(p + 1));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((p) => getIndex(p + 1));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="relative w-full bg-black py-16 overflow-hidden">
+    <div className="relative w-full py-16 overflow-hidden bg-[#1c1a16]">
 
-      {/* CENTER AREA */}
+      {/* SLIDER AREA */}
       <div className="relative flex items-center justify-center h-[260px]">
 
-        {slides.map((slide, i) => {
-          const offset = i - active;
+        {/* LEFT CARD */}
+        <div
+          onClick={prev}
+          className="absolute cursor-pointer transition-all duration-500"
+          style={{
+            transform: "translateX(-300px) scale(0.85)",
+            opacity: 0.6,
+            zIndex: 5,
+          }}
+        >
+          <div className="w-[260px] h-[170px] rounded-2xl overflow-hidden border border-zinc-700">
+            <img
+              src={slides[leftIndex].image}
+              className="w-full h-full object-cover"
+              alt="left"
+            />
+          </div>
+        </div>
 
-          return (
-            <div
-              key={slide.id}
-              onClick={() => setActive(i)}
-              className="absolute transition-all duration-500 cursor-pointer"
-              style={{
-                transform: `
-                  translateX(${offset * 280}px)
-                  scale(${i === active ? 1.1 : 0.85})
-                `,
-                zIndex: i === active ? 10 : 5,
-                opacity: Math.abs(offset) > 2 ? 0 : 1,
-              }}
-            >
-              <div
-                className={`rounded-2xl overflow-hidden shadow-xl border border-zinc-700
-                ${
-                  i === active
-                    ? "w-[380px] h-[240px]"
-                    : "w-[260px] h-[170px] opacity-60"
-                }`}
-              >
-                <img
-                  src={slide.image}
-                  className="w-full h-full object-cover"
-                  alt="slide"
-                />
-              </div>
-            </div>
-          );
-        })}
+        {/* CENTER CARD */}
+        <div
+          className="absolute transition-all duration-500"
+          style={{
+            transform: "translateX(0px) scale(1.1)",
+            zIndex: 10,
+          }}
+        >
+          <div className="w-[380px] h-[240px] rounded-2xl overflow-hidden shadow-xl border border-zinc-700">
+            <img
+              src={slides[active].image}
+              className="w-full h-full object-cover"
+              alt="center"
+            />
+          </div>
+        </div>
+
+        {/* RIGHT CARD */}
+        <div
+          onClick={next}
+          className="absolute cursor-pointer transition-all duration-500"
+          style={{
+            transform: "translateX(300px) scale(0.85)",
+            opacity: 0.6,
+            zIndex: 5,
+          }}
+        >
+          <div className="w-[260px] h-[170px] rounded-2xl overflow-hidden border border-zinc-700">
+            <img
+              src={slides[rightIndex].image}
+              className="w-full h-full object-cover"
+              alt="right"
+            />
+          </div>
+        </div>
 
       </div>
 
@@ -138,7 +169,6 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-6 py-10">
         <div className="grid md:grid-cols-2 gap-8 items-center">
 
-          {/* LEFT */}
           <div>
             <h1 className="text-4xl font-bold leading-tight">
               Search, compare, save
@@ -165,7 +195,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* RIGHT */}
           <div className="flex justify-center md:justify-end">
             <img
               src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600"
@@ -188,10 +217,7 @@ export default function HomePage() {
                 const Icon = cat.icon;
 
                 return (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center min-w-[70px]"
-                  >
+                  <div key={i} className="flex flex-col items-center min-w-[70px]">
                     <Icon className="w-5 h-5 text-black" />
                     <span className="text-xs mt-2 text-black">
                       {cat.name}
