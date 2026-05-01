@@ -11,7 +11,7 @@ const IdealoHeader = () => {
         {/* Logo */}
         <div className="flex items-center gap-8">
           <div className="flex items-baseline">
-            <span className="text-3xl font-bold tracking-tight">idealo</span>
+            <span className="text-3xl font-bold tracking-tight">Nexsol..LLC</span>
             <div className="w-6 h-0.5 bg-orange-500 ml-1 mt-1" />
           </div>
         </div>
