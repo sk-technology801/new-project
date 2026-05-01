@@ -49,7 +49,7 @@ const FancySlider = () => {
     setActive((p) => (p === grouped.length - 1 ? 0 : p + 1));
 
   return (
-    <div className="relative w-full bg-black py-10 overflow-hidden">
+  <div className="relative w-full bg-white py-10 overflow-hidden">
 
       <div
         className="flex transition-transform duration-700 ease-in-out"
@@ -186,6 +186,7 @@ export default function HomePage() {
               </span>
             </div>
           );
+
         })}
 
       </div>
