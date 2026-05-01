@@ -163,12 +163,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORY (FLAT ICONS - NO ROUND) */}
+    {/* CATEGORY (SAME AS HERO SEARCH STYLE) */}
 <section className="bg-black py-6">
   <div className="max-w-6xl mx-auto px-6">
 
-    <div className="rounded-full px-6 py-3 overflow-x-auto no-scrollbar bg-white">
-      <div className="flex gap-8">
+    <div className="bg-white rounded-2xl px-4 py-3 overflow-x-auto no-scrollbar">
+      
+      <div className="flex items-center gap-8 min-w-max">
 
         {categories.map((cat, i) => {
           const Icon = cat.icon;
@@ -176,9 +177,8 @@ export default function HomePage() {
           return (
             <div
               key={i}
-              className="flex flex-col items-center min-w-[70px]"
+              className="flex flex-col items-center justify-center min-w-[70px] text-center"
             >
-              {/* FLAT ICON (NO CIRCLE) */}
               <Icon className="w-5 h-5 text-black" />
 
               <span className="text-xs mt-2 text-black">
