@@ -163,37 +163,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORY WHITE INNER BOX */}
-      <section className="bg-black py-6">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* CATEGORY (FLAT ICONS - NO ROUND) */}
+<section className="bg-black py-6">
+  <div className="max-w-6xl mx-auto px-6">
 
-          <div className="rounded-full px-6 py-3 overflow-x-auto no-scrollbar bg-white">
-            <div className="flex gap-6">
+    <div className="rounded-full px-6 py-3 overflow-x-auto no-scrollbar bg-white">
+      <div className="flex gap-8">
 
-              {categories.map((cat, i) => {
-                const Icon = cat.icon;
+        {categories.map((cat, i) => {
+          const Icon = cat.icon;
 
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center min-w-[85px]"
-                  >
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100">
-                      <Icon className="w-5 h-5 text-black" />
-                    </div>
+          return (
+            <div
+              key={i}
+              className="flex flex-col items-center min-w-[70px]"
+            >
+              {/* FLAT ICON (NO CIRCLE) */}
+              <Icon className="w-5 h-5 text-black" />
 
-                    <span className="text-xs mt-2 text-black">
-                      {cat.name}
-                    </span>
-                  </div>
-                );
-              })}
-
+              <span className="text-xs mt-2 text-black">
+                {cat.name}
+              </span>
             </div>
-          </div>
+          );
+        })}
 
-        </div>
-      </section>
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* SLIDER */}
       <FancySlider />
